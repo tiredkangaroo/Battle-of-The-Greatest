@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <title>fight</title>
     <style>
-        /* body{
-            background-color: #1e1e1e;
-        } */
+        body{
+            font-family: VT323;
+        }
         button{
             cursor: 3px solid white;
         }
@@ -87,6 +90,7 @@
             bg = loadImage("assets/streetfighter.gif")
             bgb = loadImage("assets/gamepreview.jpg")
             playerImg = loadImage("assets/player.png")
+            
         }
         function cc(){
             fill(colors[cidx])
@@ -100,7 +104,7 @@
         }
         setTimeout(cc, 1300);
         function draw(){
-            
+            textFont("VT323")
             frameRate(60);
             if (playing){
                 drawc();
@@ -123,7 +127,7 @@
                 image(bgb, 0, 0, 1026, 526);
                 rect(mouseX, mouseY, 3)
                 textSize(70);
-                h = text("Street Fighter", 300, 100);
+                h = text("Battle of the Greatest", 220, 100);
                 
                 noStroke();
                 // rect(375, 220, 240, 70);

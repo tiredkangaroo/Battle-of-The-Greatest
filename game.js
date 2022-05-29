@@ -66,7 +66,12 @@ function drawc() {
             outtext = "You win!"
         }
         textSize(80)
-        text(outtext, 300, 100)
+        if (outtext != "You win!"){
+            text(outtext, 300, 100)
+        }
+        else{
+            text(outtext, 360, 100);
+        }
         push();
         fill("white")
         textSize(30);
@@ -146,7 +151,7 @@ function drawc() {
         jumpart = 0;
     }
     if (!inJump && player.y + player.vely <= 474) {
-        player.vely += 1;
+        player.vely += 1; //change this to 0.5 for a smooth jump
     }
     else if (!inJump && player.y <= 474 && player.y + player.vely > 474) {
         player.y = Math.floor(player.y);
@@ -180,7 +185,7 @@ function drawc() {
             ejumpart = 0;
         }
         if (!einJump && enemy.y + enemy.vely <= 474) {
-            enemy.vely += 1;
+            enemy.vely += 1; //change this to 0.5 for a smooth jump!!!!
         }
         else if (!einJump && enemy.y <= 474 && enemy.y + enemy.vely > 474) {
             enemy.y = Math.floor(enemy.y);
@@ -193,10 +198,12 @@ function drawc() {
     else{
         ai(player, enemy);
     }
-    player.y += player.vely
-    player.x += player.velx
-    enemy.x += enemy.velx
-    enemy.y += enemy.vely
+    if (!gameover){
+        player.y += player.vely
+        player.x += player.velx
+        enemy.x += enemy.velx
+        enemy.y += enemy.vely
+    }
    
     if (player.x < 0) { //if the player has gone too far to the left make it wrap around and go to the right
         player.x = 1000; //make it go to the right
@@ -253,17 +260,19 @@ function drawc() {
     fill("#1e1e1e");
     fill("crimson"); //set the color to crimson
     rect(enemy.x, enemy.y, 50, 52); //render the enemy
-    if (mvr) {
-        image(img, player.x + 50, player.y + 5, 50, 40); //draw the players sword
-    }
-    else {
-        image(imgl, player.x - 50, player.y - 5, 50, 60)
-    }
-    if (emvr) {
-        image(img, enemy.x + 50, enemy.y + 5, 50, 40); //draw the enemy's sword
-    }
-    else {
-        image(imgl, enemy.x - 50, enemy.y - 5, 50, 60)
+    if (!gameover){
+        if (mvr) {
+            image(img, player.x + 50, player.y + 5, 50, 40); //draw the players sword
+        }
+        else {
+            image(imgl, player.x - 50, player.y - 5, 50, 60)
+        }
+        if (emvr) {
+            image(img, enemy.x + 50, enemy.y + 5, 50, 40); //draw the enemy's sword
+        }
+        else {
+            image(imgl, enemy.x - 50, enemy.y - 5, 50, 60)
+        }
     }
     fslh += 1
     if (combo) {
@@ -367,28 +376,30 @@ function keyPressed() {
             nexthit = 0
         }
     }
-    nd = new Date();
-    lastkeys.push([key, nd]);
-    lk = []
-    oh = false;
-    if (lastkeys.length > 5) {
-        oh = true;
-        lk = lastkeys.slice(-6, lastkeys.length)
-        for (i = 0; i < lk.length; i++) {
-            if (!(lk[i][0] == "e")) {
-                oh = false;
-                break;
-            }
-        }
-    }
-    if (oh) {
-        lastkeys = []
-        s = lk[0]
-        t = lk.at(-1)
-        if (t[1] - s[1] < 5000) {
-            combo = true;
-        }
-        oh = false;
-    }
+    // if (!gameover){
+    //     nd = new Date();
+    //     lastkeys.push([key, nd]);
+    //     lk = []
+    //     oh = false;
+    //     if (lastkeys.length > 5) {
+    //         oh = true;
+    //         lk = lastkeys.slice(-6, lastkeys.length)
+    //         for (i = 0; i < lk.length; i++) {
+    //             if (!(lk[i][0] == "e")) {
+    //                 oh = false;
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     if (oh) {
+    //         lastkeys = []
+    //         s = lk[0]
+    //         t = lk.at(-1)
+    //         if (t[1] - s[1] < 5000) {
+    //             combo = true;
+    //         }
+    //         oh = false;
+    //     }
+    // }
 
 }
