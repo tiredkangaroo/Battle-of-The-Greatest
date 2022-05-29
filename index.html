@@ -9,12 +9,36 @@
         /* body{
             background-color: #1e1e1e;
         } */
+        button{
+            cursor: 3px solid white;
+        }
+        canvas{
+            border-radius: 8px;
+            display: inline;
+            position: absolute;
+            top:0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin:auto;
+            padding-bottom: 100px;
+        }
     </style>
 </head>
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
     <script src="game.js"></script>
     <script> 
+        document.addEventListener("keydown", (e) => {
+            if (e.code == "ArrowDown"){
+                if (selector == 0){
+                    selector = 1
+                }
+                else{
+                    selector = 0
+                }
+            }
+        })
         class Player{
             constructor(pos, health=100) {
                 this.x = pos[0];
@@ -29,8 +53,9 @@
         var nexthit = 31;
         function setup(){
             createCanvas(1024, 526);
+            noCursor();
             player = new Player([30, 474]);
-            enemy = new Player([900, 474]);
+            enemy = new Player([800, 474]);
             speed = 1;
             keytime = 6;
             inJump = false;
@@ -49,47 +74,84 @@
             einJump = false;
             ejumpart = 0;
             playing = false;
-            b = createButton("Play against a friend");
-            b.position(383, 228);
-            b.size(240, 70);
-            b.id("playbutton");
-            b.mouseClicked(() => {
-                playing = true;
-                twoplayer = true;
-                document.body.removeChild(document.getElementById("playbuttonai"));
-                document.body.removeChild(document.getElementById("playbutton"));
-            })
-            m = createButton("Play against the AI");
-            m.position(383, 338);
-            m.size(240, 70);
-            m.id("playbuttonai")
-            m.mouseClicked(() => {
-                playing = true;
-                twoplayer = false;
-                document.body.removeChild(document.getElementById("playbuttonai"));
-                document.body.removeChild(document.getElementById("playbutton"));
-            })
+            gameover = false;
+            outtext = ""
+            colors = ["#ffa1a1", "#ffd9a1", "#f6fc9f", "#a1fc9f", "#9ffcf4", "#adc7ff", "#e9aef5", "#ff5555", "	#ffb86c", "#f1fa8c", "#50fa7b", "#8be9fd", "#bd93f9", "#ff79c6", "#6272a4", "#282a36"]
+            cidx = 0
+            // selectarea = []
+            selector = 0
         }
         function preload(){
             img = loadImage('assets/sword.png');
             imgl = loadImage('assets/swordleft.png')
             bg = loadImage("assets/streetfighter.gif")
             bgb = loadImage("assets/gamepreview.jpg")
+            playerImg = loadImage("assets/player.png")
         }
+        function cc(){
+            fill(colors[cidx])
+            cidx += 1
+            if (cidx + 1 > colors.length){
+                cidx = 0
+            }
+            if (!playing){
+                setTimeout(cc, 500);
+            }
+        }
+        setTimeout(cc, 1300);
         function draw(){
+            
+            frameRate(60);
             if (playing){
                 drawc();
             }
+            // else if (gameover){
+            //     background(220);
+            //     textSize(70);
+            //     if (outtext == "You win!"){ //cause text-align: center is 🤮
+            //         text(outtext, 360, 100);
+            //     }
+            //     else{
+            //         text(outtext, 300, 100)
+            //     }
+            //     push();
+            //     rect(mouseX, mouseY, 7)
+            //     pop();
+            // }
             else{
                 background(220);
                 image(bgb, 0, 0, 1026, 526);
+                rect(mouseX, mouseY, 3)
                 textSize(70);
-                text("Street Fighter", 300, 70);
+                h = text("Street Fighter", 300, 100);
+                
                 noStroke();
-                rect(375, 220, 240, 70);
-                b = document.getElementById("playbutton");
-                b.style.background = "#ffc670"
-                b.style.border = "none"
+                // rect(375, 220, 240, 70);
+                push();
+                fill("white")
+                textSize(30)
+                text("Play with a Friend", 390, 250)
+                text("Play with AI", 421, 310);
+                // console.log("r")
+                if (selector == 0){
+                    text("→", 350, 250)
+                }
+                else{
+                    text("→", 350, 310)
+                }
+                if (keyIsDown(13)){
+                    if (selector == 0){
+                        playing = true;
+                        twoplayer = true;
+                    }
+                    else{
+                        playing = true;
+                        twoplayer = false
+                    }
+                }
+                textSize(13)
+                text("Blue Player - WASD to Move, E to attack\nRed Player - Arrow Keys, Shift to Attack", 370, 500);
+                pop();
             }
         }
     </script>

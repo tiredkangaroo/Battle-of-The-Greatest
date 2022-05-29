@@ -1,56 +1,45 @@
-function ai(player, enemy) {
+function ai(){
+    maxenemyvelx = 7
     nexthit += 1
-    // emvr = (player.x > enemy.x)
-    if (enemy.x > player.x && Math.abs(enemy.x - player.x) < Math.abs(player.x - 0) + Math.abs(1024 - enemy.x)) {
-        if (enemy.velx > -2) {
-            enemy.velx -= 1
+    if (Math.abs(enemy.x - player.x) > 90){
+        if (player.x > enemy.x && ((1024-player.x) + enemy.x) > player.x - enemy.x){ //enemy is on the left of the player and the most optimal way to get to the player is by raw movement
+            if (enemy.velx < maxenemyvelx){ //if the vel is not at its max yet
+                enemy.velx += 0.67 //keep decreasing
+            }
+            emvr = true; //the enemy is moving right
         }
-        emvr = false
-    }
-    else if (enemy.x > player.x && enemy.x - player.x >= (player.x - 0) + Math.abs(1024 - enemy.x)) {
-        if (enemy.velx < 2) {
-            enemy.velx += 1
+        else if (player.x > enemy.x && ((1024-player.x) + enemy.x) < player.x - enemy.x){ //enemy is on the left of the player and the most optimal way to get to the player is by wrapping
+            if (enemy.velx > -maxenemyvelx){
+                enemy.velx -= 0.67
+            }
+            emvr = false;
         }
-        emvr = true
-    }
-    else if (enemy.x < player.x && player.x - enemy.x < Math.abs(1024 - player.x) + enemy.x) {
-        if (enemy.velx < 2) {
-            enemy.velx += 1
+        if (enemy.x > player.x && (player.x + 1024-enemy.x) > (enemy.x - player.x)){ //enemy is on the right of the player and the most optimal way to get to the player is by raw movement
+            if (enemy.velx > -maxenemyvelx){
+                enemy.velx -= 0.67
+            }
+            emvr = false;
         }
-        emvr = true
-    }
-    else if (enemy.x < player.x && player.x - enemy.x >= Math.abs(1024 - player.x) + enemy.x) {
-        if (enemy.velx > -2) {
-            enemy.velx -= 1
+        else if (enemy.x > player.x && (player.x + 1024-enemy.x) < (enemy.x - player.x)){ //enemy is on the right of the player and the most optimal way to get to the player is by wrapping
+            if (enemy.velx < maxenemyvelx){ //if the vel is not at its max yet
+                enemy.velx += 0.67 //keep decreasing
+            }
+            emvr = true; //the enemy is moving right
         }
-        emvr = false
     }
-    else if (dist(enemy.x, enemy.y, player.x, player.y) <= 50){
-        enemy.velx = 0;
-        cppb = 400;
-    }
-    enemy.x += enemy.velx;
-    if (nexthit > 90) {
-        if (emvr) {
-            if ((enemy.x + 89 >= player.x && enemy.x + 89 <= player.x + 50) || (Math.abs(player.x - (enemy.x + 50)) < 50)) {
-                setTimeout(() => {
-                    if ((enemy.x + 89 >= player.x && enemy.x + 89 <= player.x + 50) || (Math.abs(player.x - (enemy.x + 50)) < 50)) {
-                        cphb = 10
-                        cppb = 124
-                    }
-                }, Math.random() * 250)
+    if (nexthit > 60 && Math.abs(enemy.y - player.y) <= 2){ //if it has been more the 1 second since the last hit and the change in y is less than 10
+        if (emvr){ //if the enemy's sword is pointed toward the right
+            if (enemy.x + 89 > player.x && enemy.x + 89 < player.x + 60 ){
+                cphb += 10
                 nexthit = 0
+                // console.log(enemy.y, player.y)
             }
         }
-        else {
-            if ((enemy.x - 50 <= player.x + 50 && enemy.x - 50 >= player.x) || (Math.abs(player.x - (enemy.x - 50)) < 0)) {
-                setTimeout(() => {
-                    if ((enemy.x + 89 >= player.x && enemy.x + 89 <= player.x + 50) || (Math.abs(player.x - (enemy.x + 50)) < 50)) {
-                        cphb = 10
-                        cppb = 124
-                    }
-                }, Math.random() * 250)
+        else{
+            if (enemy.x - 89 < player.x + 50 && enemy.x + 89 > player.x - 10){
+                cphb += 10
                 nexthit = 0
+                // console.log(enemy.y, player.y)
             }
         }
     }
@@ -59,7 +48,71 @@ function drawc() {
     frameRate(60);
     background("#f8f8f2"); //set the background
     image(bg, 0, 0, 1024, 600)
+    rect(mouseX, mouseY, 3)
     noStroke(); //remove all strokes
+    if (player.health <= 0 || enemy.health <= 0){
+        // playing = false;
+        gameover = true;
+        if (player.health <= 0 && twoplayer){
+            outtext = "Player 2 wins!"
+        }
+        else if (enemy.health <= 0 && twoplayer){
+            outtext = "Player 1 wins!"
+        }
+        else if (player.health <= 0 && !twoplayer){
+            outtext = "Enemy wins!"
+        }
+        else if (enemy.health <= 0 && !twoplayer){
+            outtext = "You win!"
+        }
+        textSize(80)
+        text(outtext, 300, 100)
+        push();
+        fill("white")
+        textSize(30);
+        text("Home Screen", 470, 250)
+        text("→", 420, 250)
+        pop();
+        // z = createButton("Main Screen");
+        // z.position(383, 228);
+        // z.size(240, 70);
+        // z.id("mainbutton");
+        // zed = document.getElementById("mainbutton")
+        // z.mouseClicked(() =>{
+        //     createCanvas(1024, 526);
+        //     player = new Player([30, 474]);
+        //     enemy = new Player([800, 474]);
+        //     playing = false;
+        //     gameover = false;
+        //     b = createButton("Play against a friend");
+        //     b.position(383, 228);
+        //     b.size(240, 70);
+        //     b.id("playbutton");
+        //     b.mouseClicked(() => {
+        //         playing = true;
+        //         twoplayer = true;
+        //         document.body.removeChild(document.getElementById("playbuttonai"));
+        //         document.body.removeChild(document.getElementById("playbutton"));
+        //     })
+        //     b.style.borderRadius = "8px"
+        //     m = createButton("Play against the AI");
+        //     m.position(383, 338);
+        //     m.size(240, 70);
+        //     m.id("playbuttonai")
+        //     m.mouseClicked(() => {
+        //         playing = true;
+        //         twoplayer = false;
+        //         document.body.removeChild(document.getElementById("playbuttonai"));
+        //         document.body.removeChild(document.getElementById("playbutton"));
+        //     })
+        //     m.style.borderRadius = "8px"
+        //     document.body.removeChild(document.getElementById("mainbutton"))
+        // })
+        // zed.style.background = "#828bab"
+        // zed.style.color = "#f8f8f2"
+        // zed.style.border = "none"
+        // zed.style.borderRadius = "8px"
+    }
     if (keyIsDown(65)) { //if the a key is pressed
         if (player.velx > -7) {
             player.velx -= speed; //more left
@@ -144,14 +197,7 @@ function drawc() {
     player.x += player.velx
     enemy.x += enemy.velx
     enemy.y += enemy.vely
-    // if (Math.abs(enemy.x - player.x) > 150){ //if the distance between the two enemies is greater than 150 pixels
-    //     if (enemy.x > player.x){ //check if the enemy is on the right of the player or the left
-    //         enemy.x -= speed/1.6; //if the enemy is on the right of the player, make the enemy more left toward the player
-    //     }
-    //     else{ //if the enemy is on the left of the player
-    //         enemy.x += speed/1.6; //make the enemy more right toward the player
-    //     }
-    // }
+   
     if (player.x < 0) { //if the player has gone too far to the left make it wrap around and go to the right
         player.x = 1000; //make it go to the right
     }
@@ -203,6 +249,7 @@ function drawc() {
     rect(enemy.x - 24, enemy.y - 24.5, enemy.health, 5, 8) //draw the enemy's health bar
     fill("skyblue"); //set the color to skyblue
     rect(player.x, player.y, 50, 52); //render the player
+    // image(playerImg, player.x, player.y, 70, 62);
     fill("#1e1e1e");
     fill("crimson"); //set the color to crimson
     rect(enemy.x, enemy.y, 50, 52); //render the enemy
@@ -219,12 +266,6 @@ function drawc() {
         image(imgl, enemy.x - 50, enemy.y - 5, 50, 60)
     }
     fslh += 1
-    if (fslh >= 2) {
-        text("can hit", 10, 20);
-    }
-    else {
-        text("no hit", 10, 20);
-    }
     if (combo) {
         fill("black");
         rect(30, 40, 120, 60);
@@ -275,6 +316,14 @@ function drawc() {
     }
 }
 function keyPressed() {
+    if (keyIsDown(13) && gameover){
+        setTimeout( () => {
+            playing = false;
+            gameover = false;
+            player = new Player([30, 474]);
+            enemy = new Player([800, 474]);
+        }, 300)
+    }
     if (mvr) {
         if (keyIsDown(69) && fslh >= 45 && ((player.x + 89 >= enemy.x && player.x + 89 <= enemy.x + 50) || (Math.abs(enemy.x - (player.x + 50)) < 50))) {
             fslh = 0
@@ -295,10 +344,12 @@ function keyPressed() {
             fslh = 0
             if (combo) {
                 cehb = 50
+                cepb += 312
                 combo = false;
             }
             else {
                 cehb = 10
+                cepb += 312
             }
         }
     }
