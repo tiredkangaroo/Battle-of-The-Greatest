@@ -2,32 +2,32 @@ function ai(player, enemy) {
     nexthit += 1
     // emvr = (player.x > enemy.x)
     if (enemy.x > player.x && Math.abs(enemy.x - player.x) < Math.abs(player.x - 0) + Math.abs(1024 - enemy.x)) {
-        if (enemy.velx > -7) {
-            enemy.velx -= 0.87
+        if (enemy.velx > -2) {
+            enemy.velx -= 1
         }
         emvr = false
     }
     else if (enemy.x > player.x && enemy.x - player.x >= (player.x - 0) + Math.abs(1024 - enemy.x)) {
-        if (enemy.velx < 7) {
-            enemy.velx += 0.87
+        if (enemy.velx < 2) {
+            enemy.velx += 1
         }
         emvr = true
     }
     else if (enemy.x < player.x && player.x - enemy.x < Math.abs(1024 - player.x) + enemy.x) {
-        if (enemy.velx < 7) {
-            enemy.velx += 0.87
+        if (enemy.velx < 2) {
+            enemy.velx += 1
         }
         emvr = true
     }
     else if (enemy.x < player.x && player.x - enemy.x >= Math.abs(1024 - player.x) + enemy.x) {
-        if (enemy.velx > -7) {
-            enemy.velx -= 0.87
+        if (enemy.velx > -2) {
+            enemy.velx -= 1
         }
         emvr = false
     }
-    else {
+    else if (dist(enemy.x, enemy.y, player.x, player.y) <= 50){
         enemy.velx = 0;
-        enemy.x = Math.random() * 7;
+        cppb = 400;
     }
     enemy.x += enemy.velx;
     if (nexthit > 90) {
@@ -83,22 +83,7 @@ function drawc() {
         einJump = true;
         ejumpart = 1;
     }
-    if (keyIsDown(LEFT_ARROW)) {
-        if (enemy.velx > -7) {
-            enemy.velx -= 1
-        }
-        emvr = false
-    }
-    else if (keyIsDown(RIGHT_ARROW)) {
-        if (enemy.velx < 7) {
-            enemy.velx += 1
-        }
-        emvr = true;
-    }
-    else {
-        enemy.velx = 0;
-    }
-    ai(player, enemy);
+    console.log(twoplayer)
     if (inJump && jumpart < jumpmax) {
         player.vely -= jumpart * 22
         jumpart += 9
@@ -117,25 +102,44 @@ function drawc() {
     else if (!inJump) {
         player.vely = 0;
     }
-    if (einJump && ejumpart < jumpmax) {
-        enemy.vely -= ejumpart * 22
-        ejumpart += 9
+    if (twoplayer){
+        if (keyIsDown(LEFT_ARROW)) {
+            if (enemy.velx > -7) {
+                enemy.velx -= 1
+            }
+            emvr = false
+        }
+        else if (keyIsDown(RIGHT_ARROW)) {
+            if (enemy.velx < 7) {
+                enemy.velx += 1
+            }
+            emvr = true;
+        }
+        else {
+            enemy.velx = 0;
+        }
+        if (einJump && ejumpart < jumpmax) {
+            enemy.vely -= ejumpart * 22
+            ejumpart += 9
+        }
+        else if (einJump && ejumpart >= jumpmax) {
+            einJump = false;
+            ejumpart = 0;
+        }
+        if (!einJump && enemy.y + enemy.vely <= 474) {
+            enemy.vely += 1;
+        }
+        else if (!einJump && enemy.y <= 474 && enemy.y + enemy.vely > 474) {
+            enemy.y = Math.floor(enemy.y);
+            enemy.vely = 1;
+        }
+        else if (!einJump) {
+            enemy.vely = 0;
+        }
     }
-    else if (einJump && ejumpart >= jumpmax) {
-        einJump = false;
-        ejumpart = 0;
+    else{
+        ai(player, enemy);
     }
-    if (!einJump && enemy.y + enemy.vely <= 474) {
-        enemy.vely += 1;
-    }
-    else if (!einJump && enemy.y <= 474 && enemy.y + enemy.vely > 474) {
-        enemy.y = Math.floor(enemy.y);
-        enemy.vely = 1;
-    }
-    else if (!einJump) {
-        enemy.vely = 0;
-    }
-
     player.y += player.vely
     player.x += player.velx
     enemy.x += enemy.velx
@@ -190,12 +194,12 @@ function drawc() {
     if (enemy.health < 0) {
         enemy.health = 0
     }
-    if (inJump && !einJump) {
-        setTimeout(() => {
-            einJump = true;
-            ejumpart = 1;
-        }, 150);
-    }
+    // if (inJump && !einJump) {
+    //     setTimeout(() => {
+    //         einJump = true;
+    //         ejumpart = 1;
+    //     }, 150);
+    // }
     rect(enemy.x - 24, enemy.y - 24.5, enemy.health, 5, 8) //draw the enemy's health bar
     fill("skyblue"); //set the color to skyblue
     rect(player.x, player.y, 50, 52); //render the player

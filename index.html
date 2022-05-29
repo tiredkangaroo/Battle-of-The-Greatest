@@ -49,12 +49,24 @@
             einJump = false;
             ejumpart = 0;
             playing = false;
-            b = createButton("Play");
+            b = createButton("Play against a friend");
             b.position(383, 228);
             b.size(240, 70);
             b.id("playbutton");
             b.mouseClicked(() => {
                 playing = true;
+                twoplayer = true;
+                document.body.removeChild(document.getElementById("playbuttonai"));
+                document.body.removeChild(document.getElementById("playbutton"));
+            })
+            m = createButton("Play against the AI");
+            m.position(383, 338);
+            m.size(240, 70);
+            m.id("playbuttonai")
+            m.mouseClicked(() => {
+                playing = true;
+                twoplayer = false;
+                document.body.removeChild(document.getElementById("playbuttonai"));
                 document.body.removeChild(document.getElementById("playbutton"));
             })
         }
