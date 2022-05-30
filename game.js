@@ -51,6 +51,8 @@ function drawc() {
     rect(mouseX, mouseY, 3)
     noStroke(); //remove all strokes
     if (player.health <= 0 || enemy.health <= 0){
+        ma = document.getElementById("EJBDFC3")
+        ma.pause()
         // playing = false;
         gameover = true;
         if (player.health <= 0 && twoplayer){
@@ -141,7 +143,7 @@ function drawc() {
         einJump = true;
         ejumpart = 1;
     }
-    console.log(twoplayer)
+    // console.log(twoplayer)
     if (inJump && jumpart < jumpmax) {
         player.vely -= jumpart * 22
         jumpart += 9
@@ -255,8 +257,8 @@ function drawc() {
     // }
     rect(enemy.x - 24, enemy.y - 24.5, enemy.health, 5, 8) //draw the enemy's health bar
     fill("skyblue"); //set the color to skyblue
-    rect(player.x, player.y, 50, 52); //render the player
-    // image(playerImg, player.x, player.y, 70, 62);
+    // rect(player.x, player.y, 50, 52); //render the player
+    image(playerImg, player.x, player.y);
     fill("#1e1e1e");
     fill("crimson"); //set the color to crimson
     rect(enemy.x, enemy.y, 50, 52); //render the enemy

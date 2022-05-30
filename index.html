@@ -144,6 +144,12 @@
                     text("→", 350, 310)
                 }
                 if (keyIsDown(13)){
+                    a = document.createElement("audio")
+                    a.src = "assets/game.mp3"
+                    a.loop = true;
+                    a.id = "EJBDFC3"
+                    a.play()
+                    document.body.appendChild(a)
                     if (selector == 0){
                         playing = true;
                         twoplayer = true;
