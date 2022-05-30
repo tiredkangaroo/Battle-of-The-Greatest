@@ -50,6 +50,7 @@ function drawc() {
     image(bg, 0, 0, 1024, 600)
     rect(mouseX, mouseY, 3)
     noStroke(); //remove all strokes
+    // rect(player.x, player.y, 50, 10)
     if (player.health <= 0 || enemy.health <= 0){
         ma = document.getElementById("EJBDFC3")
         ma.pause()
@@ -135,7 +136,7 @@ function drawc() {
     else {
         player.velx = 0;
     }
-    if ((keyIsDown(32) || keyIsDown(87)) && jumpart == 0 && player.y >= 474) {
+    if ((keyIsDown(32) || keyIsDown(87)) && jumpart == 0 && player.y >= 466) {
         inJump = true;
         jumpart = 1;
     }
@@ -152,10 +153,10 @@ function drawc() {
         inJump = false;
         jumpart = 0;
     }
-    if (!inJump && player.y + player.vely <= 474) {
+    if (!inJump && player.y + player.vely <= 466) {
         player.vely += 1; //change this to 0.5 for a smooth jump
     }
-    else if (!inJump && player.y <= 474 && player.y + player.vely > 474) {
+    else if (!inJump && player.y <= 466 && player.y + player.vely > 466) {
         player.y = Math.floor(player.y);
         player.vely = 1;
     }
@@ -258,7 +259,7 @@ function drawc() {
     rect(enemy.x - 24, enemy.y - 24.5, enemy.health, 5, 8) //draw the enemy's health bar
     fill("skyblue"); //set the color to skyblue
     // rect(player.x, player.y, 50, 52); //render the player
-    image(playerImg, player.x, player.y);
+    image(playerImg, player.x, player.y, 50, 60);
     fill("#1e1e1e");
     fill("crimson"); //set the color to crimson
     rect(enemy.x, enemy.y, 50, 52); //render the enemy
@@ -331,8 +332,8 @@ function keyPressed() {
         setTimeout( () => {
             playing = false;
             gameover = false;
-            player = new Player([30, 474]);
-            enemy = new Player([800, 474]);
+            player = new Player([30, 466]);
+            enemy = new Player([800, 466]);
         }, 300)
     }
     if (mvr) {
