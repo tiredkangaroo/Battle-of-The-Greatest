@@ -27,7 +27,7 @@ function ai(){
             emvr = true; //the enemy is moving right
         }
     }
-    if (nexthit > 60 && Math.abs(enemy.y - player.y) <= 2){ //if it has been more the 1 second since the last hit and the change in y is less than 10
+    if (nexthit > 60 && Math.abs(enemy.y - player.y) <= 9){ //if it has been more the 1 second since the last hit and the change in y is less than 10
         if (emvr){ //if the enemy's sword is pointed toward the right
             if (enemy.x + 89 > player.x && enemy.x + 89 < player.x + 60 ){
                 cphb += 10
@@ -140,7 +140,7 @@ function drawc() {
         inJump = true;
         jumpart = 1;
     }
-    if (keyIsDown(38) && jumpart == 0 && enemy.y >= 474) {
+    if (keyIsDown(38) && jumpart == 0 && enemy.y >= 466) {
         einJump = true;
         ejumpart = 1;
     }
@@ -187,10 +187,10 @@ function drawc() {
             einJump = false;
             ejumpart = 0;
         }
-        if (!einJump && enemy.y + enemy.vely <= 474) {
+        if (!einJump && enemy.y + enemy.vely <= 466) {
             enemy.vely += 1; //change this to 0.5 for a smooth jump!!!!
         }
-        else if (!einJump && enemy.y <= 474 && enemy.y + enemy.vely > 474) {
+        else if (!einJump && enemy.y <= 466 && enemy.y + enemy.vely > 466) {
             enemy.y = Math.floor(enemy.y);
             enemy.vely = 1;
         }
@@ -259,10 +259,21 @@ function drawc() {
     rect(enemy.x - 24, enemy.y - 24.5, enemy.health, 5, 8) //draw the enemy's health bar
     fill("skyblue"); //set the color to skyblue
     // rect(player.x, player.y, 50, 52); //render the player
-    image(playerImg, player.x, player.y, 50, 60);
+    if (mvr){
+        image(playerImg, player.x, player.y, 50, 60);
+    }
+    else{
+        image(playerLeftImg, player.x, player.y, 50, 60);
+    }
     fill("#1e1e1e");
     fill("crimson"); //set the color to crimson
-    rect(enemy.x, enemy.y, 50, 52); //render the enemy
+    // rect(enemy.x, enemy.y, 50, 52); //render the enemy
+    if (emvr){
+        image(enemyImg, enemy.x, enemy.y, 50, 60);
+    }
+    else{
+        image(enemyLeftImg, enemy.x, enemy.y, 50, 60);
+    }
     if (!gameover){
         if (mvr) {
             image(img, player.x + 50, player.y + 5, 50, 40); //draw the players sword

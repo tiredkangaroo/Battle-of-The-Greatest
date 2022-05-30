@@ -33,7 +33,7 @@
     <script src="game.js"></script>
     <script> 
         document.addEventListener("keydown", (e) => {
-            if (e.code == "ArrowDown"){
+            if (e.code == "ArrowDown" && !playing){
                 if (selector == 0){
                     selector = 1
                 }
@@ -58,7 +58,7 @@
             createCanvas(1024, 526);
             noCursor();
             player = new Player([30, 466]);
-            enemy = new Player([800, 474]);
+            enemy = new Player([800, 466]);
             speed = 1;
             keytime = 6;
             inJump = false;
@@ -90,7 +90,9 @@
             bg = loadImage("assets/streetfighter.gif")
             bgb = loadImage("assets/gamepreview.jpg")
             playerImg = loadImage("assets/player.png")
-            
+            playerLeftImg = loadImage("assets/playerleft.png")
+            enemyImg = loadImage("assets/enemy.png")
+            enemyLeftImg = loadImage("assets/enemyleft.png")
         }
         function cc(){
             fill(colors[cidx])
