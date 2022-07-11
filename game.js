@@ -27,7 +27,7 @@ function ai(){
             emvr = true; //the enemy is moving right
         }
     }
-    if (nexthit > 60 && Math.abs(enemy.y - player.y) <= 9){ //if it has been more the 1 second since the last hit and the change in y is less than 10
+    if (nexthit > 100 && Math.abs(enemy.y - player.y) <= 9){ //if it has been more the 1 second since the last hit and the change in y is less than 10
         if (emvr){ //if the enemy's sword is pointed toward the right
             if (enemy.x + 89 > player.x && enemy.x + 89 < player.x + 60 ){
                 cphb += 10

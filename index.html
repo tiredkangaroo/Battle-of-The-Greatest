@@ -7,30 +7,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
     <title>fight</title>
     <style>
         body{
+            background-image: url(assets/pagebackground.jpeg);
+        }
+        html{
+            font-family: "Roboto";
+        }
+        main{
             font-family: VT323;
+            display: flex;           /* establish flex container */
         }
         button{
             cursor: 3px solid white;
         }
         canvas{
-            border-radius: 8px;
-            display: inline;
-            position: absolute;
-            top:0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            margin:auto;
-            padding-bottom: 100px;
+            margin: auto;
+            margin-top: 0 auto;
+            margin-bottom: 0 auto;
+            padding-top: 1vh;
+        }
+        h1{
+            color: white;
+            text-align: center;
+            font-size: 450%;
         }
     </style>
 </head>
 <body>
+    <h1 id="title">Battle of the Greatest</h1>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
-    <script src="game.js"></script>
+    <script src="unreadableGame.js"></script>
     <script> 
         document.addEventListener("keydown", (e) => {
             if (e.code == "ArrowDown" && !playing){
@@ -94,17 +105,6 @@
             enemyImg = loadImage("assets/enemy.png")
             enemyLeftImg = loadImage("assets/enemyleft.png")
         }
-        function cc(){
-            fill(colors[cidx])
-            cidx += 1
-            if (cidx + 1 > colors.length){
-                cidx = 0
-            }
-            if (!playing){
-                setTimeout(cc, 500);
-            }
-        }
-        setTimeout(cc, 1300);
         function draw(){
             textFont("VT323")
             frameRate(60);
@@ -166,6 +166,15 @@
                 pop();
             }
         }
+    </script>
+    <script>
+        const title = document.querySelector("#title")
+        var colors = ["#ffa1a1", "#ffd9a1", "#f6fc9f", "#a1fc9f", "#9ffcf4", "#adc7ff", "#e9aef5", "#ff5555", "	#ffb86c", "#f1fa8c", "#50fa7b", "#8be9fd", "#bd93f9", "#ff79c6", "#6272a4", "#282a36"]
+        function changeColor() {
+            title.style.color = colors[Math.floor(Math.random() * colors.length)]
+            setTimeout(changeColor, 300)
+        }
+        setTimeout(changeColor, 100)
     </script>
 </body>
 </html>
