@@ -305,38 +305,38 @@ function drawc() {
         player.health -= 1
         cphb -= 1
     }
-    if (cepb) {
-        if (cepb > 0) {
-            if (cepb > 114) {
-                enemy.x += 12
-                cepb -= 12
-            }
-            else {
-                enemy.x += 4
-                cepb -= 4
-            }
-        }
-        else {
-            enemy.x -= 4
-            cepb += 4
-        }
-    }
-    if (cppb) {
-        if (cppb > 0) {
-            if (cppb > 114) {
-                player.x += 12
-                cppb -= 12
-            }
-            else {
-                player.x += 4
-                cppb -= 4
-            }
-        }
-        else {
-            player.x -= 4
-            cppb += 4
-        }
-    }
+    // if (cepb) {
+    //     if (cepb > 0) {
+    //         if (cepb > 114) {
+    //             enemy.x += 12
+    //             cepb -= 12
+    //         }
+    //         else {
+    //             enemy.x += 4
+    //             cepb -= 4
+    //         }
+    //     }
+    //     else {
+    //         enemy.x -= 4
+    //         cepb += 4
+    //     }
+    // }
+    // if (cppb) {
+    //     if (cppb > 0) {
+    //         if (cppb > 114) {
+    //             player.x += 12
+    //             cppb -= 12
+    //         }
+    //         else {
+    //             player.x += 4
+    //             cppb -= 4
+    //         }
+    //     }
+    //     else {
+    //         player.x -= 4
+    //         cppb += 4
+    //     }
+    // }
 }
 function keyPressed() {
     if (keyIsDown(13) && gameover){
@@ -352,12 +352,12 @@ function keyPressed() {
             fslh = 0
             if (combo) {
                 cehb = 50
-                cepb += 312
+                // cepb += 312
                 combo = false;
             }
             else {
                 cehb = 10
-                cepb += 112
+                // cepb += 112
             }
 
         }
@@ -367,26 +367,26 @@ function keyPressed() {
             fslh = 0
             if (combo) {
                 cehb = 50
-                cepb += 312
+                // cepb += 312
                 combo = false;
             }
             else {
                 cehb = 10
-                cepb += 312
+                // cepb += 312
             }
         }
     }
     if (emvr) {
         if (keyIsDown(16) && ((enemy.x + 89 >= player.x && enemy.x + 89 <= player.x + 50) || (Math.abs(player.x - (enemy.x + 50)) < 50))) {
             cphb = 10
-            cppb = 124
+            // cppb = 124
             nexthit = 0
         }
     }
     else {
         if (keyIsDown(16) && ((enemy.x - 50 <= player.x + 50 && enemy.x - 50 >= player.x) || (Math.abs(player.x - (enemy.x - 50)) < 0))) {
             cphb = 10
-            cppb = -124
+            // cppb = -124
             nexthit = 0
         }
     }
